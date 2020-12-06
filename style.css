@@ -10,12 +10,12 @@
 
 @font-face {
     font-family: "tetris";
-  src: url("../fonts/tetris.eot"); /* IE9 Compat Modes */
-  src: url("../fonts/tetris.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
-    url("../fonts/tetris.otf") format("opentype"), /* Open Type Font */
-    url("../fonts/tetris.svg") format("svg"), /* Legacy iOS */
-    url("../fonts/tetris.ttf") format("truetype"), /* Safari, Android, iOS */
-    url("../fonts/tetris.woff") format("woff"), /* Modern Browsers */
+  src: url("./fonts/tetris.eot"); /* IE9 Compat Modes */
+  src: url("./fonts/tetris.eot?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+    url("./fonts/tetris.otf") format("opentype"), /* Open Type Font */
+    url("./fonts/tetris.svg") format("svg"), /* Legacy iOS */
+    url("./fonts/tetris.ttf") format("truetype"), /* Safari, Android, iOS */
+    url("./fonts/tetris.woff") format("woff"), /* Modern Browsers */
     url("./fonts/tetris.woff2") format("woff2"); /* Modern Browsers */
   font-weight: normal;
   font-style: normal;
