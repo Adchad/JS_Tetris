@@ -4,8 +4,8 @@ var great_div_DOM = document.querySelector('.greatdiv');
 var xpadded,ypadded;
 var tetro;
 
-var sizex = 8;
-var sizey = 20;
+var sizex = 12;
+var sizey = 21;
 
 var offsetx = 100;
 var offsety = 100;
