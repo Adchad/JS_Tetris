@@ -157,7 +157,6 @@ class Tetromino {
         if(this.shape[i][j]===1){
           this.array.push(this.map[this.y+j][this.x+i])	;
           this.map[this.y+j][this.x+i].setColor(this.color);
-          console.log(this.map[this.y+j][this.x+i]);
         }
       }
     }
