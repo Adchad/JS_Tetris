@@ -10,7 +10,7 @@
 
 body{
     background-color: black;
-    background-image: url('../static/tetris_back.jpg');
+    background-image: url('./tetris_back.jpg');
 }
 
 .score{
