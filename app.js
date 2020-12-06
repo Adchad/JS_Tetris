@@ -10,9 +10,14 @@ var sizey = 21;
 var offsetx = 100;
 var offsety = 100;
 
-var speed = 0;
+var speed = 400;
 var dir = 'd';
 
+var score=0;
+
+var score_DOM = document.querySelector('.score');
+
+score_DOM.innerHTML="SCORE : "+score;
 
 class Point{
 
@@ -273,16 +278,29 @@ function rotate_current_Tetro(){
   tetro.rotateAndDraw();
 }
 
-function logKey(e) {
+async function logKey(e) {
   switch (e.code) {
 
     case 'ArrowLeft':
       dir = 'l';
+      tetro.moveAndDraw(dir);
+      speed = 200;
+      map.draw();
+      await sleep(speed);
       break;
 
     case 'ArrowRight':
       dir = 'r';
+      tetro.moveAndDraw(dir);
+      speed = 200;
+      map.draw();
+      await sleep(speed);
       break;
+
+    case 'ArrowDown':
+      speed = 100;
+      break;
+  
 
     case 'Space':
       rotate_current_Tetro();
@@ -340,27 +358,18 @@ class Map {
       }
 
       if(ctr===this.width){
+        
+        score+=1000;
+        console.log('score = '+ score);
+        score_DOM.innerHTML="SCORE : "+score;
         return i;
+        
       }
 
     }
 
     return 0;
-    //     console.log('LIGNE');
 
-    //     for(var i2=i; i2>1 ; i2--){
-    //       for(var j2=0; j2<this.width;j2++){
-    //         this.map[i2][j2]=this.map[i2-1][j2];
-    //         this.map[i2][j2].setCoordinates(j2,i2-1);
-    //       }
-    //     }
-
-    //     for(var j3=0; j3<this.width;j3++){
-    //       this.map[1][j3]=new Point(j3,1);
-    //     }
-
-    //   }
-    // }
   }
 
 
@@ -399,21 +408,29 @@ var map=new Map(sizex,sizey);
 //MAIN
 
 document.addEventListener('keydown', logKey);
+
+document.addEventListener('keyup', function(){ speed=400; dir='d';});
+
 init();
 
 tetro = new Tetromino(map.getMap(),generateShape(),2,0);
 //GAME LOOP
 async function loop(timestamp) {
 
-  await sleep(400-speed);
+  await sleep(speed);
+
 
   tetro.moveAndDraw(dir);
 
   if(tetro.detectCollision('d')){
     var line=map.testLine();
     if(line!=0){
-      map.clearLine(line);    
+      while(line!=0){
+        map.clearLine(line); 
+        line = map.testLine();
+      }    
     }
+
     tetro = new Tetromino(map.getMap(),generateShape(),2,0);
   };
 
@@ -422,12 +439,11 @@ async function loop(timestamp) {
   //tetro.print();
   //console.log(dir); 
   
-  dir='d';
+  
 
   map.draw();
 
 
-  
 
   //console.table(map);
   
