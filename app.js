@@ -420,16 +420,18 @@ async function loop(timestamp) {
   await sleep(speed);
 
 
-  tetro.moveAndDraw(dir);
+ 
 
   if(tetro.detectCollision('d')){
     var line=map.testLine();
+    await sleep(500);
     if(line!=0){
       while(line!=0){
         map.clearLine(line); 
         line = map.testLine();
       }    
     }
+
 
     tetro = new Tetromino(map.getMap(),generateShape(),2,0);
   };
@@ -440,7 +442,7 @@ async function loop(timestamp) {
   //console.log(dir); 
   
   
-
+  tetro.moveAndDraw(dir);
   map.draw();
 
 
