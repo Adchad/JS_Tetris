@@ -7,8 +7,8 @@ var tetro;
 var sizex = 12;
 var sizey = 21;
 
-var offsetx = 100;
-var offsety = 100;
+var offsetx = 790;
+var offsety = 200;
 
 var speed = 400;
 var dir = 'd';
@@ -25,6 +25,7 @@ class Point{
     this.x = x;
     this.y = y;
     this.state=false;
+    this.color='black';
   }
 
   getCoordinates(){
@@ -45,7 +46,7 @@ class Point{
       xpadded = ("00" + this.x).slice (-3);
       ypadded = ("00" + this.y).slice (-3);
     
-      document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.backgroundColor = "black";
+      document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.backgroundColor = this.color;
     }
     else{
       xpadded = ("00" + this.x).slice (-3);
@@ -53,6 +54,10 @@ class Point{
     
       document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.backgroundColor = "white";
     }
+  }
+
+  setColor(color){
+    this.color=color;
   }
 
 
@@ -100,22 +105,46 @@ var shapes =[
     [ 1 , 0 , 0],
     [ 1 , 1 , 0],
     [ 1 , 0 , 0]
+  ],
+
+  [
+
+    [ 0 , 0 , 0],
+    [ 0 , 1 , 1],
+    [ 1 , 1 , 0]
+  ],
+
+  [
+
+    [ 0 , 0 , 0],
+    [ 1 , 1 , 0],
+    [ 0 , 1 , 1]
   ]
+
+
+
+]
+
+
+var colors=[
+  "#FFD500","#FF971C","#0341AE","#00ffff","#800080","#72CB3B","#FF3213"
 
 ]
 
 
 function generateShape(){
-  return shapes[Math.floor(Math.random() * shapes.length)];
+  var val= Math.floor(Math.random() * shapes.length);
+  return [shapes[val],colors[val] ];
 }
 
 class Tetromino {
-  constructor(map,shape, x, y){
+  constructor(map,shape,color, x, y){
 
     this.map=map;
     this.x=x;
     this.y=y;
     this.shape = JSON.parse(JSON.stringify(shape)); 
+    this.color=color;
     this.array=[];
     this.shape_size=this.shape.length;
 
@@ -127,6 +156,8 @@ class Tetromino {
       for(var j=0; j<this.shape_size; ++j){
         if(this.shape[i][j]===1){
           this.array.push(this.map[this.y+j][this.x+i])	;
+          this.map[this.y+j][this.x+i].setColor(this.color);
+          console.log(this.map[this.y+j][this.x+i]);
         }
       }
     }
@@ -265,8 +296,8 @@ function init(){
           xpadded = ("00" + x).slice (-3);
           ypadded = ("00" + y).slice (-3);
           great_div_DOM.innerHTML += "<div class=\"insidediv\" id=\"indiv-"+ xpadded +"-"+ ypadded + "\"></div>\n";
-          document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.left = x*23 + offsetx + "px";
-          document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.top = y*23 + offsety + "px";
+          document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.left = x*28 + offsetx + "px";
+          document.querySelector("#indiv-"+ xpadded +"-"+ ypadded).style.top = y*28 + offsety + "px";
 
       }
 
@@ -393,15 +424,7 @@ class Map {
 }
   
 
-
-
-
-
 var map=new Map(sizex,sizey);
-
-
-
-
 
 
 
@@ -413,7 +436,8 @@ document.addEventListener('keyup', function(){ speed=400; dir='d';});
 
 init();
 
-tetro = new Tetromino(map.getMap(),generateShape(),2,0);
+shape_color=generateShape();
+tetro = new Tetromino(map.getMap(),shape_color[0],shape_color[1],4,0);
 //GAME LOOP
 async function loop(timestamp) {
 
@@ -432,8 +456,8 @@ async function loop(timestamp) {
       }    
     }
 
-
-    tetro = new Tetromino(map.getMap(),generateShape(),2,0);
+    shape_color=generateShape();
+    tetro = new Tetromino(map.getMap(),shape_color[0],shape_color[1],4,0);
   };
 
   

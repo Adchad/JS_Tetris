@@ -1,9 +1,27 @@
 .insidediv{
     position: absolute;
     border:1px solid #859d9c;
-    width: 20px;
-    height: 20px;
+    width: 25px;
+    height: 25px;
     background-color: white;
     z-index: 5;
 
 }
+
+body{
+    background-color: black;
+    background-image: url('../static/tetris_back.jpg');
+}
+
+.score{
+    text-align: center;
+    text-transform: uppercase;
+    color: white;
+    font-family: 'Helvetica Neue', sans-serif;
+    font-size: 50px;
+    font-weight: bold;
+    letter-spacing: -1px;
+    
+
+}
+
