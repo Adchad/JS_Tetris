@@ -15,6 +15,8 @@ var dir = 'd';
 
 var score=0;
 
+var new_tetro=false;
+
 var score_DOM = document.querySelector('.score');
 
 score_DOM.innerHTML="SCORE  "+score;
@@ -310,32 +312,34 @@ function rotate_current_Tetro(){
 }
 
 async function logKey(e) {
-  switch (e.code) {
+  if(new_tetro===false){
+    switch (e.code) {
 
-    case 'ArrowLeft':
-      dir = 'l';
-      tetro.moveAndDraw(dir);
-      speed = 200;
-      map.draw();
-      await sleep(speed);
-      break;
+      case 'ArrowLeft':
+        dir = 'l';
+        tetro.moveAndDraw(dir);
+        speed = 200;
+        map.draw();
+        await sleep(speed);
+        break;
 
-    case 'ArrowRight':
-      dir = 'r';
-      tetro.moveAndDraw(dir);
-      speed = 200;
-      map.draw();
-      await sleep(speed);
-      break;
+      case 'ArrowRight':
+        dir = 'r';
+        tetro.moveAndDraw(dir);
+        speed = 200;
+        map.draw();
+        await sleep(speed);
+        break;
 
-    case 'ArrowDown':
-      speed = 100;
-      break;
+      case 'ArrowDown':
+        speed = 100;
+        break;
   
 
-    case 'Space':
-      rotate_current_Tetro();
-      break;
+      case 'Space':
+        rotate_current_Tetro();
+        break;
+    }
   }
 }
 
@@ -390,9 +394,7 @@ class Map {
 
       if(ctr===this.width){
         
-        score+=1000;
-        console.log('score = '+ score);
-        score_DOM.innerHTML="SCORE "+score;
+        
         return i;
         
       }
@@ -406,6 +408,9 @@ class Map {
 
 
   clearLine(line){
+    score+=1000;
+    console.log('score = '+ score);
+    score_DOM.innerHTML="SCORE "+score;
     for(var i=line; i>1 ; i--){
       for(var j=0; j<this.width;j++){
         this.map[i][j]=this.map[i-1][j];
@@ -453,6 +458,7 @@ async function loop(timestamp) {
     var line=map.testLine();
     await sleep(500);
     if(line!=0){
+      new_tetro=true;
       while(line!=0){
         map.clearLine(line); 
         line = map.testLine();
@@ -461,6 +467,8 @@ async function loop(timestamp) {
 
     shape_color=generateShape();
     tetro = new Tetromino(map.getMap(),shape_color[0],shape_color[1],4,0);
+    await sleep(500);
+    new_tetro=false;
   };
 
   
