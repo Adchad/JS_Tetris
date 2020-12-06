@@ -17,7 +17,7 @@ var score=0;
 
 var score_DOM = document.querySelector('.score');
 
-score_DOM.innerHTML="SCORE : "+score;
+score_DOM.innerHTML="SCORE  "+score;
 
 class Point{
 
@@ -157,6 +157,7 @@ class Tetromino {
         if(this.shape[i][j]===1){
           this.array.push(this.map[this.y+j][this.x+i])	;
           this.map[this.y+j][this.x+i].setColor(this.color);
+          console.log(this.map[this.y+j][this.x+i]);
         }
       }
     }
@@ -272,15 +273,15 @@ class Tetromino {
     return false;
   }
 
+  detectLoss(){
+    if(this.y==1){
+      score_DOM.innerHTML="YOU LOST    RELOAD TO RETRY"
+      return true;
+    }
 
-
-
-
+    return false;
+  }
 }
-
-
-
-
 
 
 const sleep = (milliseconds) => {
@@ -391,7 +392,7 @@ class Map {
         
         score+=1000;
         console.log('score = '+ score);
-        score_DOM.innerHTML="SCORE : "+score;
+        score_DOM.innerHTML="SCORE "+score;
         return i;
         
       }
@@ -446,6 +447,9 @@ async function loop(timestamp) {
  
 
   if(tetro.detectCollision('d')){
+    if(tetro.detectLoss()){
+      return;
+    }
     var line=map.testLine();
     await sleep(500);
     if(line!=0){
